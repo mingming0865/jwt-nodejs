@@ -3,6 +3,7 @@ import mysql from 'mysql2/promise';
 import bluebird from 'bluebird';
 import { emit } from 'nodemon';
 import db from '../models/index';
+import { raw } from 'body-parser';
 
 // create the connection, specify bluebird as Promise
 
@@ -29,6 +30,33 @@ const createNewUser = async (email, password, username) => {
 }
 
 const getUserList = async () => {
+
+    //test relationships
+    // Fetch user with group info
+    let newUser = await db.User.findOne({
+        where: { id: 1 },
+        attributes: ["id", "username", "email"],
+        include: { model: db.Group, attributes: ["name", "description"] },
+        raw: true,
+        nest: true
+    });
+
+    // let roles = await db.Group.findOne({
+    //     where: { id: 1 },
+    //     include: { model: db.Role },
+    //     raw: true,
+    //     nest: true
+    // })
+
+    // Fetch roles related to the group
+    let roles = await db.Role.findAll({
+        include: { model: db.Group, where: { id: 1 } },
+        raw: true,
+        nest: true
+    });
+
+    console.log(">>> check new users: ", newUser);
+    console.log(">>> check new roles: ", roles);
 
     let users = [];
     users = await db.User.findAll();
