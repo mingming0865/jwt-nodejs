@@ -91,7 +91,7 @@ const getUserById = async (id) => {
     user = await db.User.findOne({
         where: { id: id }
     })
-    return user = user.get({ plain: true })
+    return user = user.get({ plain: true });
     console.log(">>> check user findone: ", user, "id = ", id)
     // const connection = await mysql.createConnection({ host: 'localhost', user: 'root', database: 'jwt', Promise: bluebird, });
     // try {
