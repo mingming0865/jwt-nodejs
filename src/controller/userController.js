@@ -33,7 +33,13 @@ const readFunc = async (req, res) => {
 
 const createFunc = async (req, res) => {
     try {
-        let users = await userApiService.getAllUser();
+        //validate
+        let data = await userApiService.createNewUser(req.body);
+        return res.status(200).json({
+            EM: data.EM, //error message
+            EC: data.EC, //error code
+            DT: data.DT, //data
+        })
     } catch (e) {
         console.log(e);
         return res.status(200).json({
@@ -46,7 +52,13 @@ const createFunc = async (req, res) => {
 
 const updateFunc = async (req, res) => {
     try {
-        let users = await userApiService.getAllUser();
+        //validate
+        let data = await userApiService.updateUser(req.body);
+        return res.status(200).json({
+            EM: data.EM, //error message
+            EC: data.EC, //error code
+            DT: data.DT, //data
+        })
     } catch (e) {
         console.log(e);
         return res.status(200).json({
